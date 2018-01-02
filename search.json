@@ -1,14 +1,43 @@
----
-layout: null
----
 [
-  {% for post in site.posts %}
+  
     {
-      "title"    : "{{ post.title | escape }}",
-      "category" : "{{ post.category }}",
-      "tags"     : "{{ post.tags | join: ', ' }}",
-      "url"      : "{{ site.baseurl }}{{ post.url }}",
-      "date"     : "{{ post.date }}"
-    } {% unless forloop.last %},{% endunless %}
-  {% endfor %}
+      "title"    : "Conhecendo a biblioteca React",
+      "category" : "",
+      "tags"     : "Blog, Javascript",
+      "url"      : "/blog/conhecendo-react-relacionamento/",
+      "date"     : "2017-07-13 07:32:20 -0300"
+    } ,
+  
+    {
+      "title"    : "Gerando relatórios na Web",
+      "category" : "",
+      "tags"     : "Blog, Javascript",
+      "url"      : "/blog/gerando-relatorios-pdf-na-web/",
+      "date"     : "2017-05-25 07:32:20 -0300"
+    } ,
+  
+    {
+      "title"    : "Criando um CRUD com Angular e Nodejs + Sequelize",
+      "category" : "",
+      "tags"     : "Blog, Angular",
+      "url"      : "/blog/sequelize-com-database-front-end-crud/",
+      "date"     : "2017-04-06 07:32:20 -0300"
+    } ,
+  
+    {
+      "title"    : "ORM Sequelize com database existente do Postgres no Node.js",
+      "category" : "",
+      "tags"     : "Blog, Nodejs",
+      "url"      : "/blog/sequelize-com-database-existente-postgres/",
+      "date"     : "2017-03-24 07:32:20 -0300"
+    } ,
+  
+    {
+      "title"    : "Como cheguei nesse universo maravilhoso!",
+      "category" : "",
+      "tags"     : "Blog, Web",
+      "url"      : "/blog/como-cheguei-nesse-universo/",
+      "date"     : "2017-03-13 07:32:20 -0300"
+    } 
+  
 ]
