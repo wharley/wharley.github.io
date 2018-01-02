@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>ORM Sequelize com database existente do Postgres no Node.js - My blog - Wharley Ornelas</title>
+	<meta name="description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/blog/assets/img/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/blog/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/blog/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/blog/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#311e3e">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#311e3e">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#311e3e">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/blog/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/blog/assets/css/main.css">
+</head>
+
+<body>
+  <div class="flex-container">
+  <header class="main-header">
+  <div class="wrapper">
+    <div class="header-flex">
+      <div class="menu-icon-container">
+        <span class="menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
+      </div>
+      <nav class="main-nav">
+        <span class="menu-icon-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/blog/about">About</a></li>
+        </ul>
+      </nav>
+      <p class="logo"><a href="/blog/">Wharley Ornelas</a></p>
+      <div class="search-icon-container">
+        <span class="search-icon"><a><i class="fa fa-search" aria-hidden="true"></i></a></span>
+      </div>
+    </div>
+  </div>
+</header> <!-- End Header -->
+
+  <article class="article-page">
+    <div class="page-image">
+      <div class="cover-image" style="background: url(/blog/assets/img/post-2.jpg) center no-repeat; background-size: cover;"></div>
+    </div>
+    <div class="wrapper">
+      <div class="page-content">
+        <div class="header-page">
+          <h1 class="page-title">ORM Sequelize com database existente do Postgres no Node.js</h1>
+          <div class="page-date"><time datetime="2017-03-24 07:32:20 -0300">2017, Mar 24</time></div>
+        </div>
+        <p>Neste post irei abordar a utilização do <strong>Sequelize</strong> com um database existente do <strong>Postgres</strong>.</p>
+
+<p>Devido a experiências vivenciadas com banco de dados relacionais e percebendo que o mesmo vive no ecossistema do <strong>Nodejs</strong> resolvi estudar um pouco sobre <strong>ORM’s</strong>, que dão suporte ao <strong>SGDB Postgres</strong>.</p>
+
+<p>Após várias pesquisas cheguei no <a href="https://sequelize.readthedocs.io/en/v3/" target="_blank">ORM Sequelize</a>, um ORM completo para banco de dados SQL, que atende ao <strong>MySql</strong>, <strong>SQLite</strong>, <strong>MariaDB</strong> e <strong>MSSQL</strong>.</p>
+
+<h1 id="verificações-de-instalações">Verificações de instalações!</h1>
+
+<p>Antes de começar é necessário certificar que o <a href="https://nodejs.org/en/" target="_blank">Nodejs</a> está instalado. No <strong>Postgres</strong> iremos trabalhar com duas tabelas conforme figura abaixo:</p>
+
+<p><img src="/blog/assets/img/database.jpg" alt="Database" />
+Tabelas <strong>Produto</strong> e <strong>Setor</strong>.</p>
+
+<h1 id="colocando-a-mão-na-massa">Colocando a mão na massa</h1>
+
+<p>Para iniciar o projeto crie o diretório <strong>database_existente</strong>:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>mkdir database_existente
+<span class="nv">$ </span><span class="nb">cd </span>database_existente</code></pre></figure>
+
+<p>Utilizei o <strong>npm init</strong> para inicializar o projeto (<em>irá criar o <strong>package.json</strong></em>)</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>npm init <span class="nt">-y</span></code></pre></figure>
+
+<p>Utilizei o <strong>“-y”</strong> para ignorar perguntas sobre o projeto.</p>
+
+<p>Instalei o <a href="http://docs.sequelizejs.com/manual/installation/getting-started.html" target="_blank">Sequelize</a> e também as dependências para o <strong>Postgres</strong></p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>npm i sequelize pg pg-hstore <span class="nt">--save</span></code></pre></figure>
+
+<p>E também instalei o framework <a href="http://expressjs.com/pt-br/" target="_blank">Express</a>, que é um framework para aplicativo da web do <strong>Nodejs</strong> mínimo e flexível que fornece um conjunto robusto de recursos para aplicativos web e móvel.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>npm i express <span class="nt">--save</span></code></pre></figure>
+
+<h1 id="setup-conexão-postgres">Setup conexão Postgres</h1>
+
+<p>Criei uma pasta com nome <strong>config</strong></p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>mkdir config
+<span class="nv">$ </span><span class="nb">cd </span>config</code></pre></figure>
+
+<p>Adicionei um arquivo <a href="http://www.json.org/json-pt.html" target="_blank">JSON</a> com o nome <code class="highlighter-rouge">config.json</code>, ficando assim:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="s2">"development"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"dialect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"postgres"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">5432</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"localhost"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"public"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"database"</span><span class="p">:</span><span class="w"> </span><span class="s2">"database_existente"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"postgres"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"postgres"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"logging"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<blockquote>
+  <p>logging == false desativando o console.log do <strong>Sequelize</strong></p>
+</blockquote>
+
+<h1 id="estrutura-de-pastas">Estrutura de pastas</h1>
+
+<p>Model-view-controller (MVC).</p>
+<ul>
+  <li><strong>M</strong>odelo um lugar para definir estruturas de dados e métodos para interagir com seu armazenamento de dados.</li>
+  <li><strong>V</strong>isão um lugar para gerenciar tudo o que o usuário final vê em sua tela.</li>
+  <li><strong>C</strong>ontrolador um lugar para receber solicitações de usuários, trazer dados do modelo e repassá-los para a visualização.</li>
+</ul>
+
+<p>Para ficar organizado, incluí uma pasta chamada <strong>modulos</strong> dentro da raíz do projeto</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>mkdir modulos
+<span class="nv">$ </span><span class="nb">cd </span>modulos</code></pre></figure>
+
+<p>Conforme figura abaixo:</p>
+
+<p><img src="/blog/assets/img/estruturaPasta.jpg" alt="estruturaPasta" /></p>
+
+<h1 id="schemas">Schemas</h1>
+
+<p>Adicionei o arquivo chamado <code class="highlighter-rouge">setor.js</code> dentro do diretório <em>modulos/setor/model/</em></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sequelize</span><span class="p">,</span> <span class="nx">DataTypes</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="kd">const</span> <span class="nx">Setores</span> <span class="o">=</span> <span class="nx">sequelize</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'Setor'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">id</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">INTEGER</span><span class="p">,</span>
+            <span class="na">primaryKey</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">autoIncrement</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">field</span><span class="p">:</span> <span class="s1">'id'</span>
+        <span class="p">},</span>
+        <span class="na">descricao</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">,</span>
+            <span class="na">field</span><span class="p">:</span> <span class="s1">'descricao'</span>
+        <span class="p">}</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="na">freezeTableName</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">schema</span><span class="p">:</span> <span class="s1">'public'</span><span class="p">,</span>
+        <span class="na">tableName</span><span class="p">:</span> <span class="s1">'setor'</span><span class="p">,</span>
+        <span class="na">timestamps</span><span class="p">:</span> <span class="kc">false</span>
+    <span class="p">})</span>
+
+    <span class="k">return</span> <span class="nx">Setores</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>O arquivo <code class="highlighter-rouge">produto.js</code> dentro do diretório <em>modulos/produto/model/</em></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sequelize</span><span class="p">,</span> <span class="nx">DataTypes</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">Produtos</span> <span class="o">=</span> <span class="nx">sequelize</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'Produto'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">id</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">INTEGER</span><span class="p">,</span>
+            <span class="na">primaryKey</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">autoIncrement</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">field</span><span class="p">:</span> <span class="s1">'id'</span>
+        <span class="p">},</span>
+        <span class="na">descricao</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">,</span>
+            <span class="na">field</span><span class="p">:</span> <span class="s1">'descricao'</span>
+        <span class="p">},</span>
+        <span class="na">barra</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">,</span>
+            <span class="na">field</span><span class="p">:</span> <span class="s1">'barra'</span>
+        <span class="p">},</span>
+        <span class="na">id_setor</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">INTEGER</span><span class="p">,</span>
+            <span class="na">field</span><span class="p">:</span> <span class="s1">'id_setor'</span>
+        <span class="p">}</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="na">freezeTableName</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">schema</span><span class="p">:</span> <span class="s1">'public'</span><span class="p">,</span>
+        <span class="na">tableName</span><span class="p">:</span> <span class="s1">'produto'</span><span class="p">,</span>
+        <span class="na">timestamps</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="na">classMethods</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">associate</span><span class="p">:</span> <span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="nx">Produtos</span><span class="p">.</span><span class="nx">belongsTo</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">Setor</span><span class="p">,</span> <span class="p">{</span> <span class="na">foreignKey</span><span class="p">:</span> <span class="s1">'id_setor'</span> <span class="p">})</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+
+    <span class="k">return</span> <span class="nx">Produtos</span>
+<span class="p">}</span></code></pre></figure>
+
+<blockquote>
+  <ul>
+    <li><strong>freezeTableName == true</strong> sequelize não tentará alterar o nome DAO para obter o nome da tabela. Caso contrário, o nome do modelo será pluralizado;</li>
+    <li><strong>timestamps == false</strong> Não adicionará as colunas createdAt e updatedAt timestamps para o modelo;</li>
+    <li><strong>classMethods</strong> Fornece funções que são adicionadas ao modelo (<strong>Model</strong>). Se você substituir métodos fornecidos pelo sequelize, você pode acessar o método original usando this.constructor.prototype, This.constructor.prototype.find.apply (this, arguments);</li>
+  </ul>
+</blockquote>
+
+<h1 id="carregamento-dos-modelos-e-conexão-do-sequelize-com-postgres">Carregamento dos modelos e conexão do Sequelize com Postgres</h1>
+
+<p>Incluí o arquivo <code class="highlighter-rouge">modelLoader.js</code> dentro do diretório <em><strong>utils/</strong></em></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="kd">const</span> <span class="nx">env</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">||</span> <span class="s1">'development'</span>          
+<span class="kd">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../config/config.json'</span><span class="p">)[</span><span class="nx">env</span><span class="p">]</span>
+<span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'path'</span><span class="p">)</span>
+<span class="kd">let</span> <span class="nx">Sequelize</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'sequelize'</span><span class="p">)</span>
+
+<span class="c1">//Criando a conexão com o banco de dados de acordo com a configuração do config.json</span>
+<span class="kd">let</span> <span class="nx">sequelize</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Sequelize</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">database</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">password</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span>
+<span class="kd">let</span> <span class="nx">db</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1">//Criando um array do caminho dos modelos</span>
+<span class="kd">const</span> <span class="nx">models</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'../modulos/setor/model/setor'</span><span class="p">,</span>
+    <span class="s1">'../modulos/produto/model/produto'</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="kd">let</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">models</span><span class="p">.</span><span class="nx">length</span>
+
+<span class="c1">//Irá importar os modelos para o sequelize</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">l</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">sequelize</span><span class="p">.</span><span class="k">import</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">models</span><span class="p">[</span><span class="nx">i</span><span class="p">]))</span>
+    <span class="nx">db</span><span class="p">[</span><span class="nx">model</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">model</span>
+<span class="p">}</span>
+
+<span class="c1">//Irá percorrer e separar apenas o objeto que contém a propriedade associate, sem o "associate" o sequelize não monta uma relação!</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">db</span><span class="p">).</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">modelName</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="s1">'associate'</span> <span class="k">in</span> <span class="nx">db</span><span class="p">[</span><span class="nx">modelName</span><span class="p">])</span>
+        <span class="nx">db</span><span class="p">[</span><span class="nx">modelName</span><span class="p">].</span><span class="nx">associate</span><span class="p">(</span><span class="nx">db</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">sequelize</span> <span class="o">=</span> <span class="nx">sequelize</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">Sequelize</span> <span class="o">=</span> <span class="nx">Sequelize</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">db</span></code></pre></figure>
+
+<h1 id="regras-e-solicitações-dos-usuários">Regras e solicitações dos usuários</h1>
+
+<p>Criei o arquivo <code class="highlighter-rouge">setor.js</code> dentro do diretório <em><strong>modulos/setor/controller/</strong></em></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="kd">const</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../../../utils/modelLoader'</span><span class="p">)</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">read</span> <span class="o">=</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="nx">model</span><span class="p">.</span><span class="nx">Setor</span><span class="p">.</span><span class="nx">findAll</span><span class="p">(}</span>
+
+    <span class="p">}).</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+
+    <span class="p">}).</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+    <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">insert</span> <span class="o">=</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="kd">const</span> <span class="nx">dados</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+
+    <span class="nx">model</span><span class="p">.</span><span class="nx">Setor</span>
+        <span class="p">.</span><span class="nx">build</span><span class="p">(</span>
+            <span class="nx">dados</span>
+        <span class="p">)</span>
+        <span class="p">.</span><span class="nx">save</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+        <span class="p">}).</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+        <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="kd">const</span> <span class="nx">dados</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+
+    <span class="nx">model</span><span class="p">.</span><span class="nx">Setor</span>
+        <span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">dados</span><span class="p">,</span> <span class="p">{</span>
+            <span class="na">where</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">id</span><span class="p">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">id</span>
+            <span class="p">}</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+        <span class="p">}).</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+        <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="k">delete</span> <span class="o">=</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="kd">const</span> <span class="nx">dados</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+
+    <span class="nx">model</span><span class="p">.</span><span class="nx">Setor</span>
+        <span class="p">.</span><span class="nx">destroy</span><span class="p">({</span>
+            <span class="na">where</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">id</span><span class="p">:</span> <span class="nx">dados</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">id</span>
+            <span class="p">}</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">rowDeleted</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+        <span class="p">},</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+        <span class="p">})</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>O arquivo <code class="highlighter-rouge">produto.js</code> dentro do diretório <em><strong>modulos/produto/controller/</strong></em></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="kd">const</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../../../utils/modelLoader'</span><span class="p">)</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">read</span> <span class="o">=</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="nx">model</span><span class="p">.</span><span class="nx">Produto</span><span class="p">.</span><span class="nx">findAll</span><span class="p">(}</span>
+        <span class="nl">include</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span> <span class="na">model</span><span class="p">:</span> <span class="nx">model</span><span class="p">.</span><span class="nx">Setor</span> <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}).</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+
+    <span class="p">}).</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">insert</span> <span class="o">=</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="kd">const</span> <span class="nx">dados</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+
+    <span class="nx">model</span><span class="p">.</span><span class="nx">Produto</span>
+        <span class="p">.</span><span class="nx">build</span><span class="p">(</span>
+            <span class="nx">dados</span>
+        <span class="p">)</span>
+        <span class="p">.</span><span class="nx">save</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+        <span class="p">}).</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+        <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="kd">const</span> <span class="nx">dados</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+
+    <span class="nx">model</span><span class="p">.</span><span class="nx">Produto</span>
+        <span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">dados</span><span class="p">,</span> <span class="p">{</span>
+            <span class="na">where</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">id</span><span class="p">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">id</span>
+            <span class="p">}</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+        <span class="p">}).</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+        <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="k">delete</span> <span class="o">=</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="kd">const</span> <span class="nx">dados</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+
+    <span class="nx">model</span><span class="p">.</span><span class="nx">Produto</span>
+        <span class="p">.</span><span class="nx">destroy</span><span class="p">({</span>
+            <span class="na">where</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">id</span><span class="p">:</span> <span class="nx">dados</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">id</span>
+            <span class="p">}</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">rowDeleted</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+        <span class="p">},</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+        <span class="p">})</span>
+<span class="p">}</span></code></pre></figure>
+
+<h1 id="caminhos-de-rota">Caminhos de rota</h1>
+
+<p>Criei os <strong>roteamentos</strong> onde definimos às solicitações do cliente. Para obter uma introdução a roteamento, consulte <a href="http://expressjs.com/pt-br/guide/routing.html" target="_blank">Roteamento básico</a>.</p>
+
+<p>Incluí o arquivo <code class="highlighter-rouge">setor.js</code> dentro do diretório <em><strong>modulos/setor/routes/</strong></em></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'express'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="nx">express</span><span class="p">.</span><span class="nx">Router</span><span class="p">()</span>
+
+<span class="kd">const</span> <span class="nx">controller</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../controller/setor'</span><span class="p">)</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'/listSetor'</span><span class="p">,</span> <span class="nx">controller</span><span class="p">.</span><span class="nx">read</span><span class="p">)</span>
+<span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'/saveSetor'</span><span class="p">,</span> <span class="nx">controller</span><span class="p">.</span><span class="nx">insert</span><span class="p">)</span>
+<span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'/updateSetor'</span><span class="p">,</span> <span class="nx">controller</span><span class="p">.</span><span class="nx">update</span><span class="p">)</span>
+<span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'/deleteSetor'</span><span class="p">,</span> <span class="nx">controller</span><span class="p">.</span><span class="k">delete</span><span class="p">)</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">router</span></code></pre></figure>
+
+<p>O arquivo <code class="highlighter-rouge">produto.js</code> dentro do diretório <em><strong>modulos/produto/routes/</strong></em></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'express'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="nx">express</span><span class="p">.</span><span class="nx">Router</span><span class="p">()</span>
+
+<span class="kd">const</span> <span class="nx">controller</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../controller/Produto'</span><span class="p">)</span>
+
+<span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'/listProduto'</span><span class="p">,</span> <span class="nx">controller</span><span class="p">.</span><span class="nx">read</span><span class="p">)</span>
+<span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'/saveProduto'</span><span class="p">,</span> <span class="nx">controller</span><span class="p">.</span><span class="nx">insert</span><span class="p">)</span>
+<span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'/updateProduto'</span><span class="p">,</span> <span class="nx">controller</span><span class="p">.</span><span class="nx">update</span><span class="p">)</span>
+<span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'/deleteProduto'</span><span class="p">,</span> <span class="nx">controller</span><span class="p">.</span><span class="k">delete</span><span class="p">)</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">router</span></code></pre></figure>
+
+<p>Adicionei o arquivo <code class="highlighter-rouge">setor.js</code> dentro do diretório <em><strong>modulos/setor/</strong></em></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="kd">const</span> <span class="nx">modelLoader</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../../utils/modelLoader'</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">routerSetor</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./routes/setor'</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">models</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'../modulos/setor/model/setor'</span>
+<span class="p">]</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="nx">routerSetor</span><span class="p">)</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p>O arquivo <code class="highlighter-rouge">produto.js</code> dentro do diretório <em><strong>modulos/produto/</strong></em></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="kd">const</span> <span class="nx">modelLoader</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../../utils/modelLoader'</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">routerProduto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./routes/produto'</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">models</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'../modulos/produto/model/produto'</span>
+<span class="p">]</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="nx">routerProduto</span><span class="p">)</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<h1 id="iniciando-um-servidor-e-escuta-a-porta-3000-por-conexões">Iniciando um servidor e escuta a porta 3000 por conexões</h1>
+
+<p>Instalei o <a href="https://github.com/expressjs/body-parser" target="_blank">body-parser</a> que analisa os corpos de solicitação de entrada em um <strong>middleware</strong> antes de seus manipuladores, disponíveis na propriedade <code class="highlighter-rouge">req.body</code>.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>npm i body-parser <span class="nt">--save</span></code></pre></figure>
+
+<p>Incluí o arquivo <code class="highlighter-rouge">app.js</code> dentro da raíz do projeto</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'express'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'path'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">bodyParser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'body-parser'</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">setor</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./modulos/setor/setor'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">produto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./modulos/produto/produto'</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">()</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">bodyParser</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">bodyParser</span><span class="p">.</span><span class="nx">urlencoded</span><span class="p">({</span> <span class="na">extended</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}))</span>
+
+<span class="nx">setor</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span>
+<span class="nx">produto</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">app</span></code></pre></figure>
+
+<p>Criei uma pasta <code class="highlighter-rouge">bin</code> na raíz do projeto.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>mkdir bin</code></pre></figure>
+
+<p>E o arquivo <code class="highlighter-rouge">www</code> dentro do diretório <em><strong>bin/</strong></em></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s1">'use strict'</span>
+
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../app'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'http'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">loader</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../utils/modelLoader'</span><span class="p">)</span>
+
+<span class="c1">// Obter porta do meio ambiente e armazenamento no Express.</span>
+
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">normalizePort</span><span class="p">(</span><span class="s1">'3000'</span><span class="p">)</span>
+<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="s1">'port'</span><span class="p">,</span> <span class="nx">port</span><span class="p">)</span>
+
+<span class="c1">// Criar servidor HTTP.</span>
+
+<span class="kd">let</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span>
+
+<span class="c1">// Escutar na porta todas as interfaces de rede.</span>
+
+<span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">)</span>
+<span class="nx">server</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'error'</span><span class="p">,</span> <span class="nx">onError</span><span class="p">)</span>
+<span class="nx">server</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'listening'</span><span class="p">,</span> <span class="nx">onListening</span><span class="p">)</span>
+
+<span class="c1">// Normalizar uma porta em um número, string, ou falso.</span>
+<span class="kd">function</span> <span class="nx">normalizePort</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">port</span><span class="p">))</span> <span class="p">{</span>
+        <span class="c1">// pipe nomeado</span>
+        <span class="k">return</span> <span class="nx">val</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">port</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// número da porta</span>
+        <span class="k">return</span> <span class="nx">port</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="kc">false</span>
+<span class="p">}</span>
+
+<span class="c1">// Ouvinte de eventos para o servidor HTTP evento "erro".</span>
+<span class="kd">function</span> <span class="nx">onError</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">syscall</span> <span class="o">!==</span> <span class="s1">'listen'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="nx">error</span>
+    <span class="p">}</span>
+
+    <span class="kd">const</span> <span class="nx">bind</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">port</span> <span class="o">===</span> <span class="s1">'string'</span> <span class="p">?</span>
+        <span class="s1">'Pipe '</span> <span class="o">+</span> <span class="nx">port</span> <span class="p">:</span>
+        <span class="s1">'Port '</span> <span class="o">+</span> <span class="nx">port</span>
+
+    <span class="c1">// Ouvir erros com mensagens amigáveis</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">code</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="s1">'EACCES'</span><span class="p">:</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">bind</span> <span class="o">+</span> <span class="s1">' exige privilégios elevados'</span><span class="p">)</span>
+            <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">case</span> <span class="s1">'EADDRINUSE'</span><span class="p">:</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">bind</span> <span class="o">+</span> <span class="s1">' já está em uso'</span><span class="p">)</span>
+            <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">default</span><span class="p">:</span>
+            <span class="k">throw</span> <span class="nx">error</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// ouvir eventos para o servidor HTTP.</span>
+<span class="kd">function</span> <span class="nx">onListening</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">addr</span> <span class="o">=</span> <span class="nx">server</span><span class="p">.</span><span class="nx">address</span><span class="p">()</span>
+    <span class="kd">const</span> <span class="nx">bind</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">addr</span> <span class="o">===</span> <span class="s1">'string'</span> <span class="p">?</span>
+        <span class="s1">'pipe '</span> <span class="o">+</span> <span class="nx">addr</span> <span class="p">:</span>
+        <span class="s1">'port '</span> <span class="o">+</span> <span class="nx">addr</span><span class="p">.</span><span class="nx">port</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Listening on '</span> <span class="o">+</span> <span class="nx">bind</span><span class="p">)</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<h1 id="prontinho">Prontinho…</h1>
+
+<p>Para rodar a <strong>api</strong>…</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">database_existente<span class="nv">$ </span>node bin/www
+Listening on port 3000</code></pre></figure>
+
+<p>Estou disponibilizando o projeto no <a href="https://github.com/wharley/database_existente" target="_blank">GitHub</a> e também a documentação das requisições para testes, acesse lá e baixe o mesmo.</p>
+
+<p>Para testar as requisições, utilizo a ferramenta <a href="https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop" target="_blank">Postman</a>.</p>
+
+
+        <div class="page-footer">
+          <div class="page-tag">
+            <span>Tags:</span>
+            
+            <a href="/blog/tags#Blog" class="tag">| Blog</a>
+            
+            <a href="/blog/tags#Nodejs" class="tag">| Nodejs</a>
+            
+          </div><!-- End Tags -->
+          <div class="page-share">
+            <span>Share:</span>
+            <a href="https://twitter.com/intent/tweet?text=ORM Sequelize com database existente do Postgres no Node.js&url=https://wharley.github.io/sequelize-com-database-existente-postgres/" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="https://facebook.com/sharer.php?u=https://wharley.github.io/sequelize-com-database-existente-postgres/" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://plus.google.com/share?url=https://wharley.github.io/sequelize-com-database-existente-postgres/" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a>
+          </div><!-- End Share -->
+        </div>
+        <section class="author-box">
+  <img src="/blog/assets/img/wharley-face.jpg" alt="Wharley Ornelas" class="author-img">
+  <div class="author-desc">
+    <h2>Wharley Ornelas</h2>
+    <p>Meu nome é Wharley Ornelas. Desenvolvedor Full-Stack, com mais de 15 anos de experiência de software. Membro ativo em comunidade de desenvolvimento..</p>
+    <ul>
+      
+        <li class="email"><a href="mailto:wharleyornelasjs@gmail.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+      
+      
+        <li class="phone"><a href="tel:044 825 5523"><i class="fa fa-phone" aria-hidden="true"></i></a></li>
+      
+      
+        <li class="website"><a href="https://wharley.github.io" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i></a></li>
+      
+      
+        <li class="twitter"><a href="https://twitter.com/@wharleyornelas" target="_blank"><i class="fa fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+</section>
+
+        <div class="recent-box">
+  <h2 class="recent-title">Recent post</h2>
+  <div class="recent-list">
+    
+      
+        <a href="/conhecendo-react-relacionamento/" class="recent-item" style="background: url(/blog/assets/img/post-5.png) center no-repeat; background-size: cover;"><span>Conhecendo a biblioteca React</span></a>
+      
+    
+      
+        <a href="/gerando-relatorios-pdf-na-web/" class="recent-item" style="background: url(/blog/assets/img/post-4.png) center no-repeat; background-size: cover;"><span>Gerando relatórios na Web</span></a>
+      
+    
+      
+        <a href="/sequelize-com-database-front-end-crud/" class="recent-item" style="background: url(/blog/assets/img/post-3.jpg) center no-repeat; background-size: cover;"><span>Criando um CRUD com Angular e Nodejs + Sequelize</span></a>
+      
+    
+      
+        <a href="/sequelize-com-database-existente-postgres/" class="recent-item" style="background: url(/blog/assets/img/post-2.jpg) center no-repeat; background-size: cover;"><span>ORM Sequelize com database existente do Postgres no Node.js</span></a>
+      
+    
+  </div>
+</div> <!-- End Recent-Box -->
+
+        <div class="newsletter" id="mc_embed_signup">
+  <h2 class="newsletter-title">Newsletter</h2>
+  <div class="form-container">
+    <p>Subscribe here to get our latest updates</p>
+    <form action="//" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <label class="screen-reader-text" for="mce-EMAIL">Email Address</label>
+      <div class="newsletter-box" id="mc_embed_signup_scroll">
+        <input type="email" name="EMAIL" placeholder="Email address" class="email-input" id="mce-EMAIL" required>
+        <input type="submit" value="Subscribe" name="subscribe" class="subscribe-btn" id="mc-embedded-subscribe">
+      </div>
+    </form>
+  </div>
+</div> <!-- End Newsletter -->
+
+        <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//wharleyornelas-com.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+      </div>
+    </div> <!-- End Wrapper -->
+  </article>
+  <div class="search-box">
+  <div class="wrapper">
+    <div class="search-grid">
+      <form class="search-form">
+        <div id="search-container">
+          <input type="text" id="search-input" class="search" placeholder="Search">
+        </div>
+      </form>
+      <ul id="results-container" class="results-search"></ul>
+      <div class="icon-close-container">
+        <span class="search-icon-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <footer class="main-footer">
+  <div class="copyright">
+    <p>2018 &copy; Wharley Ornelas</p>
+  </div>
+</footer> <!-- End Footer -->
+
+</div>
+
+  <!-- JS -->
+<script src="/blog/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/blog/assets/js/jekyll-search.js"></script>
+<script>
+  SimpleJekyllSearch({
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('results-container'),
+    json: '/blog/search.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    fuzzy: false,
+    exclude: ['Welcome']
+  });
+</script>
+<script src="/blog/assets/js/main.js"></script>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
