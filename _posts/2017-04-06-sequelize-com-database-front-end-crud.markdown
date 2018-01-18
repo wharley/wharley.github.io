@@ -121,9 +121,13 @@ Verifiquei se o `ng serve` estava rodando.
 
 Criei o **Component** (Representam uma unidade unificada de **_​View + Model + Style_** que você deve compor para criar uma aplicação) dentro do diretório `myApp/src/app/`
 
-{% highlight html %}
+{% highlight bash %}
+$ ng g c setor
 {% endhighlight %}
 
+_Generate / Component_ - gerou-se os arquivos `setor.component.css`, `setor.component.html`, `setor.component.spec.ts`, `setor.component.ts` e importei no `app.module.ts`
+
+Criei um arquivo `setor.service.ts` dentro do diretório _src/app/setor_
 
 [npm]: https://www.npmjs.com/get-npm?utm_source=house&utm_medium=homepage&utm_campaign=free%20orgs&utm_term=Install%20npm
 [node]: https://nodejs.org/en/
