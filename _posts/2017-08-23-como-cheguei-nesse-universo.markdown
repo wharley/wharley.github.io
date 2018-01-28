@@ -5,7 +5,7 @@ date:   2017-03-13 13:32:20 +0300
 description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
 img: post-1.jpg # Add image post (optional)
 tags: [Blog, Web]
-author: # Add name author (optional)
+author: Wharley Ornelas # Add name author (optional)
 ---
 Primeiro post pensei em contar um pouco sobre como cheguei até aqui nesse universo maravilhoso chamado `WEB`. A web na minha visão era somente para pesquisas `google`, com isso mantive meu foco em linguagens para desktop
 

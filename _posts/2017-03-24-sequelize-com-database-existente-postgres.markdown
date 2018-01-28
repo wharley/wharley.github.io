@@ -5,7 +5,7 @@ date:   2017-03-24 13:32:20 +0300
 description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
 img: post-2.jpg # Add image post (optional)
 tags: [Blog, Nodejs]
-author: # Add name author (optional)
+author: Wharley Ornelas # Add name author (optional)
 ---
 Neste post irei abordar a utilização do **Sequelize** com um database existente do **Postgres**.
 
