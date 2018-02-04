@@ -4,7 +4,7 @@ title:  Comunidade ? O que é ? Que importância ela tem ?
 date:   2017-10-26 13:32:20 +0300
 description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
 img: comunidade.jpeg # Add image post (optional)
-tags: [Blog, Medium]
+tags: [Blog, Comunidade]
 author: Wharley Ornelas # Add name author (optional)
 ---
 # Comunidade ?
@@ -41,6 +41,38 @@ Comecei o ano indo para os eventos de forma diferente, virei palestrante.
 
 ![Orm]({{site.baseurl}}/assets/img/orm.jpeg)
 [Orm sequelize com bancos relacionais no ecosistema nodejs][orm]{:target="_blank"}
+
+![Feliz]({{site.baseurl}}/assets/img/feliz.jpeg)
+_Estava eu ali feliz pra caramba_
+
+Neste momento o amadurecimento sobre comunidade estava ganhando uma proporção maior.
+
+# NodeSchool BH
+
+![Nodeschool]({{site.baseurl}}/assets/img/comunidade.jpeg)
+_Galerinha top..._
+
+Esse foi emocionante, no início(2015) fui como participante, nessa edição como organizador e mentor.
+
+# Frontinbh
+
+![Frontinbh]({{site.baseurl}}/assets/img/frotinbh.jpeg)
+_Sonhooooooooo_
+
+Como assim, no palco ? Confesso que só acredito quando olho para foto. Fui convidado para fazer a abertura do evento contando um pedacinho da minha história de como entrei nesse universo de developer. No final não teve como eu me emocionar com todos que ali estavam.
+
+{% twitter https://twitter.com/diogomoretti_/status/911575001895186432?ref_src=twsrc%5Etfw&ref_url=https%3A%2F%2Fmedium.com%2Fmedia%2F786260f4b0da04a23b6b1dd3b1160cd7%3FpostId%3D81171eb99537 maxheight=500 limit=5 %}
+
+## _O melhor do evento é o momento em que estamos todos juntos…_
+
+![Comunidade]({{site.baseurl}}/assets/img/todos.jpeg)
+_Aproximadamente 580 pessoas_
+
+# Conclusão
+
+Bom! hoje eu amadureci o suficiente para chegar na conclusão que comunidade é isso, você participando do lado do ouvinte ou em cima do palco não faz diferença. Não existe melhor ou pior e sim todos ganham no mesmo nível. Estão todos ali com o mesmo objetivo, ganhar e repassar conhecimentos e crescer todos nivelados.
+
+
 
 
 [orm]: https://speakerdeck.com/wharley/orm-sequelize-com-bancos-relacionais-no-ecosistema-nodejs

@@ -11,21 +11,21 @@ url: "https://wharley.github.io" # the base hostname & protocol for your site, e
 # Author settings
 author: Wharley Ornelas # add your name
 author-pic: wharley-face.jpg
-about-author: Meu nome é Wharley Ornelas. Desenvolvedor Full-Stack, com mais de 15 anos de experiência de software. Membro ativo em comunidade de desenvolvimento..
+about-author: Meu nome é Wharley Ornelas. Desenvolvedor Full-Stack na Taller, com mais de 15 anos de experiência de software. Membro ativo em comunidade de desenvolvimento..
 
 # Contact links
-email: # Add your Email address
-phone: # Add your Phone number
+email: wharleyornelasjs@gmail.com # Add your Email address
+phone: (31) 988960511 # Add your Phone number
 website: # Add your website, do not add http://
 linkedin: wharley-ornelas-da-rocha-65420932 # Add your Linkedin handle
 github: wharley # Add your Github handle
-twitter: '@wharleyornelas' # Add your Twitter handle
+twitters: '@wharleyornelas' # Add your Twitter handle\
 facebook: # Add your Facebook handle
 instagram: # Add your Instagram handle
 pinterest: # Add your Pinterest handle
 
 # Newsletter
-mailchimp: # Add your MailChimp form identifier.
+mailchimp: wharleyornelas # Add your MailChimp form identifier.
 
 # Disqus
 discus_identifier: wharleyornelas-com # Add your discus identifier
@@ -44,6 +44,8 @@ plugins:
   - jekyll-paginate
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-twitter-plugin
+  - emoji_for_jekyll
 
 include: [_pages]
 exclude: ["node_modules", "gulpfile.js", "package.json", "yarn.lock"]
