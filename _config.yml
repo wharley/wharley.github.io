@@ -44,7 +44,6 @@ plugins:
   - jekyll-paginate
   - jekyll-feed
   - jekyll-sitemap
-  - jekyll-twitter-plugin
   - emoji_for_jekyll
 
 include: [_pages]

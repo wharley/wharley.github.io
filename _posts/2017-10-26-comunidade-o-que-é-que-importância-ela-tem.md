@@ -61,7 +61,7 @@ _Sonhooooooooo_
 
 Como assim, no palco ? Confesso que só acredito quando olho para foto. Fui convidado para fazer a abertura do evento contando um pedacinho da minha história de como entrei nesse universo de developer. No final não teve como eu me emocionar com todos que ali estavam.
 
-{% twitter https://twitter.com/diogomoretti_/status/911575001895186432?ref_src=twsrc%5Etfw&ref_url=https%3A%2F%2Fmedium.com%2Fmedia%2F786260f4b0da04a23b6b1dd3b1160cd7%3FpostId%3D81171eb99537 maxheight=500 limit=5 %}
+https://twitter.com/diogomoretti_/status/911575001895186432
 
 ## _O melhor do evento é o momento em que estamos todos juntos…_
 
