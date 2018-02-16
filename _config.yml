@@ -44,7 +44,7 @@ plugins:
   - jekyll-paginate
   - jekyll-feed
   - jekyll-sitemap
-  - emoji_for_jekyll
+  - jemoji
 
 include: [_pages]
 exclude: ["node_modules", "gulpfile.js", "package.json", "yarn.lock"]
