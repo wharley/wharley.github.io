@@ -2,7 +2,7 @@
 layout: post
 title:  Comunidade ? O que é ? Que importância ela tem ?
 date:   2017-10-26 13:32:20 +0300
-description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
+description: O conceito de comunidade por muito tempo ficou restrito à ideia de um grupo de pessoas que reside em uma mesma área geográfica, compartilhando um modo de vida e uma cultura — em geral vizinhos e familiares. # Add post description (optional)
 img: comunidade.jpeg # Add image post (optional)
 tags: [Blog, Comunidade]
 author: Wharley Ornelas # Add name author (optional)

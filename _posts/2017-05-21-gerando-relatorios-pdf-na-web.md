@@ -2,7 +2,7 @@
 layout: post
 title: Gerando relatórios na Web
 date: 2017-05-21 13:32:20 +0300
-description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
+description: Vindo de um universo de aplicações desktop, onde existem uma demanda muito grande de relatórios, assim veio a necessidade também na WEB.. # Add post description (optional)
 img: post-4.png # Add image post (optional)
 tags: [Blog, Javascript]
 author: Wharley Ornelas # Add name author (optional)

@@ -2,7 +2,7 @@
 layout: post
 title: Criando um CRUD com Angular e Nodejs + Sequelize
 date: 2017-04-06 13:32:20 +0300
-description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
+description: Para ficar completo o post anterior [(ORM Sequelize com database existente do Postgres no Nodejs)]({{site.baseurl}}/sequelize-com-database-existente-postgres/){:target="_blank"}, criei um crud para melhor visualização das informações. # Add post description (optional)
 img: post-3.jpg # Add image post (optional)
 tags: [Blog, Angular]
 author: Wharley Ornelas # Add name author (optional)
