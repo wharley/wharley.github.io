@@ -2,7 +2,7 @@
 layout: post
 title:  ORM Sequelize com database existente do Postgres no Node.js
 date:   2017-03-24 13:32:20 +0300
-description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
+description: Devido experiências com banco de dados relacionais e percebendo que o mesmo vive no ecossistema do Nodejs, Resolvi estudar um pouco sobre ORM's que dão suporte em específico ao SGDB Postgres. # Add post description (optional)
 img: post-2.jpg # Add image post (optional)
 tags: [Blog, Nodejs]
 author: Wharley Ornelas # Add name author (optional)
