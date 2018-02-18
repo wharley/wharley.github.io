@@ -2,7 +2,7 @@
 layout: post
 title:  Criando APIs incríveis usando a library node-restful
 date:   2018-02-17 13:32:20 +0300
-description: É uma biblioteca para fornecer rapidamente uma `API REST` com express. Com ela você registra recursos de mongoose e as rotas `RESTful` padrão são feitas automaticamente. # Add post description (optional)
+description: É uma biblioteca para fornecer rapidamente uma API REST com express. Com ela você registra recursos de mongoose e as rotas RESTful padrão são feitas automaticamente. # Add post description (optional)
 img: post-8.jpeg # Add image post (optional)
 tags: [Blog, Nodejs]
 author: Wharley Ornelas # Add name author (optional)
@@ -107,6 +107,164 @@ Resource.route('moreinfo', {
         res.send("I'm at /resources/:id/moreinfo!")
     }
 })
+{% endhighlight %}
+
+# Criando um exemplo simples
+
+Antes de começar é necessário certificar que o **MongoDB**, **Nodejs** e o **NPM** estão instalados.
+
+Criei um diretório com nome **node-resfull**.
+
+{% highlight bash %}
+$ mkdir node-restfull 
+$ cd node-restfull
+{% endhighlight %}
+
+Utilizei o **npm init** para inicializar o projeto (_irá criar o package.json_)
+
+{% highlight bash %}
+$ npm init -y
+{% endhighlight %}
+
+Instalei os módulos que utilizei no projeto
+
+{% highlight bash %}
+$ npm i --save-dev body-parser express mongoose node-restful lodash
+{% endhighlight %}
+
+Criei um diretório com nome **api** e dentro o diretório **category**
+
+{% highlight bash %}
+$ mkdir api
+$ cd api
+$ mkdir category
+{% endhighlight %}
+
+Também o diretório com nome **common** dentro do **api**
+
+{% highlight bash %}
+$ mkdir common
+{% endhighlight %}
+
+Crei o arquivo `errorHandler.js` dentro do **common** para tratamento de erros
+
+{% highlight javascript %}
+const _ = require('lodash')
+
+module.exports = (req, res, next) => {
+  const bundle = res.locals.bundle
+
+  if(bundle.errors) {
+    const errors = parseErrors(bundle.errors)
+    res.status(500).json({errors})
+  } else {
+      next()
+  }
+}
+
+const parseErrors = (nodeRestfulErrors) => {
+  const errors = []
+  _.forIn(nodeRestfulErrors, error => errors.push(error.message))
+  return errors
+}
+{% endhighlight %}
+
+Adicionei o arquivo `category.js` dentro do diretório **api/category**
+
+{% highlight javascript %}
+const restful = require('node-restful')
+const mongoose = restful.mongoose
+
+const categorySchema = new mongoose.Schema({
+	description: { type: String },
+	createAt: { type: Date, default: Date.now },
+})
+
+module.exports = restful.model('Category', categorySchema)
+{% endhighlight %}
+
+Adicionei o arquivo `categoryService.js`
+
+{% highlight javascript %}
+const Category = require('./category')
+const errorHandler = require('../common/errorHandler')
+
+Category.methods(['get', 'post', 'put', 'delete'])
+Category.updateOptions({new: true, runValidators: true})
+Category.after('post', errorHandler).after('put', errorHandler)
+
+module.exports = Category
+{% endhighlight %}
+
+Criei o diretório **config** na raíz do projeto
+
+{% highlight bash %}
+$ mkdir config
+{% endhighlight %}
+
+Adicionei o arquivo `routes.js` e `database.js` dentro do **config**
+
+{% highlight javascript %}
+const express = require('express')
+const auth = require('./auth')
+
+module.exports = (server) => {
+
+  const protectedApi = express.Router()
+  server.use('/api', protectedApi)
+
+  const Category = require('../api/category/categoryService')
+  Category.register(protectedApi, '/categorys')
+}
+{% endhighlight %}
+
+{% highlight javascript %}
+const mongoose = require('mongoose')
+mongoose.Promise = global.Promise
+
+module.exports = mongoose.connect('mongodb://localhost/banco')
+{% endhighlight %}
+
+Na raíz do projeto criei o arquivo `server.js` e `loader.js`
+
+{% highlight javascript %}
+const port = 3004
+
+const bodyParser = require('body-parser')
+const express = require('express')
+const server = express()
+
+server.use(bodyParser.urlencoded({ extended: true}))
+server.use(bodyParser.json())
+
+require('./config/routes')(server)
+
+server.listen(port, () => {
+	console.log(`BACKEND is running on port ${port}.`)
+})
+
+module.exports = server
+{% endhighlight %}
+
+{% highlight javascript %}
+require('./server')
+require('./config/database')
+{% endhighlight %}
+
+Prontinho! basta executar o comando abaixo
+
+{% highlight bash %}
+$ node loader.js
+{% endhighlight %}
+
+Para testar utilizei o `Postman`
+
+{% highlight javascript %}
+GET localhost:3004/api/categorys
+GET localhost:3004/api/categorys/:id
+POST localhost:3004/api/categorys
+PUT localhost:3004/api/categorys/:id
+DELETE localhost:3004/api/categorys/:id
 {% endhighlight %}
 
 O fator que me levou a utilizá-la foi a flexibilidade de poder moldá-la como e quando desejei.

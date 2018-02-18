@@ -45,7 +45,8 @@ Depende. Isso mesmo, existe o `create-react-app` que já faz esse processo todo 
 # Porque usar o React ?
 Por ser uma biblioteca **JavaScript** de mecanismo dinâmico e também uma forma de reaproveitar **Components**, além da rapidez na renderização. E todos já sabem do meu amor por **JavaScript**.
 
-Hora da diversão
+# Hora da diversão
+
 Antes de começar é necessário certificar que o **Nodejs** e o **NPM** estão instalados.
 
 {% highlight bash %}
