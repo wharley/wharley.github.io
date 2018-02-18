@@ -270,7 +270,9 @@ PUT localhost:3004/api/categorys/:id
 DELETE localhost:3004/api/categorys/:id
 {% endhighlight %}
 
-> O fator que me levou a utilizá-la foi a flexibilidade de poder moldá-la como e quando desejei.
+# Conclusão
+
+O fator que me levou a utilizá-la foi a flexibilidade de poder moldá-la como e quando desejei.
 
 Espero que sirva de incentivo! :+1:
 
