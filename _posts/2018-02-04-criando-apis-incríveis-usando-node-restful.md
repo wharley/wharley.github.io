@@ -204,6 +204,7 @@ $ mkdir config
 
 Adicionei o arquivo `routes.js` e `database.js` dentro do **config**
 
+`routes.js`
 {% highlight javascript %}
 const express = require('express')
 
@@ -217,6 +218,7 @@ module.exports = (server) => {
 }
 {% endhighlight %}
 
+`database.js`
 {% highlight javascript %}
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
@@ -226,6 +228,7 @@ module.exports = mongoose.connect('mongodb://localhost/banco')
 
 Na raíz do projeto criei o arquivo `server.js` e `loader.js`
 
+`server.js`
 {% highlight javascript %}
 const port = 3004
 
@@ -245,6 +248,7 @@ server.listen(port, () => {
 module.exports = server
 {% endhighlight %}
 
+`loader.js`
 {% highlight javascript %}
 require('./server')
 require('./config/database')
