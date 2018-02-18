@@ -111,7 +111,7 @@ Resource.route('moreinfo', {
 
 # Criando um exemplo simples
 
-Antes de começar é necessário certificar que o **MongoDB**, **Nodejs** e o **NPM** estão instalados.
+Antes de começar é necessário certificar-se que o **MongoDB**, **Nodejs** e o **NPM** estão instalados.
 
 Criei um diretório com nome **node-resfull**.
 
@@ -132,7 +132,7 @@ Instalei os módulos que utilizei no projeto
 $ npm i --save-dev body-parser express mongoose node-restful lodash
 {% endhighlight %}
 
-Criei um diretório com nome **api** e dentro o diretório **category**
+Criei um diretório com nome **api** e dentro o **category**
 
 {% highlight bash %}
 $ mkdir api
@@ -270,7 +270,7 @@ PUT localhost:3004/api/categorys/:id
 DELETE localhost:3004/api/categorys/:id
 {% endhighlight %}
 
-O fator que me levou a utilizá-la foi a flexibilidade de poder moldá-la como e quando desejei.
+> O fator que me levou a utilizá-la foi a flexibilidade de poder moldá-la como e quando desejei.
 
 Espero que sirva de incentivo! :+1:
 
