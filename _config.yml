@@ -31,7 +31,7 @@ mailchimp: wharleyornelas # Add your MailChimp form identifier.
 discus_identifier: wharleyornelas-com # Add your discus identifier
 
 # Tracker
-analytics: # Google Analytics
+analytics: UA-114382847-1 # Google Analytics
 
 # Paginate
 paginate: 6
