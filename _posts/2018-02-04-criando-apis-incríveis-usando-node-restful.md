@@ -206,7 +206,6 @@ Adicionei o arquivo `routes.js` e `database.js` dentro do **config**
 
 {% highlight javascript %}
 const express = require('express')
-const auth = require('./auth')
 
 module.exports = (server) => {
 
