@@ -113,7 +113,7 @@ yarn start
 ```
 ![Aplicação Desktop]({{site.baseurl}}/assets/img/desktop.gif)
 
-# Gerando a aplicação para produçã :stuck_out_tongue_winking_eye: :
+# Gerando a aplicação para produção:
 
 Instalei o [electron-packager][packager]
 
