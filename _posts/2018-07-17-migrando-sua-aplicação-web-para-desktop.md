@@ -8,7 +8,7 @@ tags: [Blog, Nodejs]
 author: Wharley Ornelas # Add name author (optional)
 ---
 
-> Fala galerinha :heart:. Tive um tempinho bom sem escrever post e peço desculpas a todos que me seguem. Quero agradecer aqueles que me procuraram pra puxar minha orelha sobre a falta de artigo no blog :smile:.
+> Fala galerinha :heart:. Estou a um bom tempo sem escrever post. Agradeço a todos que puxaram minha orelha por causa da falta de artigo no blog :smile:.
 
 Não vou ficar justificando... Desta vez irei mostrar como migrar sua aplicação web para destkop.
 
