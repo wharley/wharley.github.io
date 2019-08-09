@@ -3,7 +3,7 @@ layout: post
 title:  Fechando o ano com chave de ouro — Retrospectiva 2017
 date:   2017-12-30 13:32:20 +0300
 description: Pensando em uma forma de refletir o que aconteceu comigo nesse ano, resolvi escrever esse post.. # Add post description (optional)
-img: retrospectiva.jpeg # Add image post (optional)
+image: retrospectiva.jpeg # Add image post (optional)
 tags: [Blog, Comunidade]
 author: Wharley Ornelas # Add name author (optional)
 ---
@@ -81,7 +81,7 @@ Recebi uma ligação de uma cara que hoje é um brother que considero muito, o B
 
 # FrontinBH
 
-Esse convite demorou para cair a ficha, um evento mágico de front-end. Falo sobre esse evento em um post anterior que escrevi: 
+Esse convite demorou para cair a ficha, um evento mágico de front-end. Falo sobre esse evento em um post anterior que escrevi:
 
 ![Post]({{site.baseurl}}/assets/img/post-7-comunidade.png)
 _[(Comunidade ? O que é ? Que importância ela tem ?)]({{site.baseurl}}/comunidade-o-que-é-que-importância-ela-tem/){:target="_blank"}_

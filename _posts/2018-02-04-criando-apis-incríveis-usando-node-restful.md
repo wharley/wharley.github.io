@@ -3,7 +3,7 @@ layout: post
 title:  Criando APIs incríveis usando a library node-restful
 date:   2018-02-17 13:32:20 +0300
 description: É uma biblioteca para fornecer rapidamente uma API REST com express. Com ela você registra recursos de mongoose e as rotas RESTful padrão são feitas automaticamente. # Add post description (optional)
-img: post-8.jpeg # Add image post (optional)
+image: post-8.jpeg # Add image post (optional)
 tags: [Blog, Nodejs]
 author: Wharley Ornelas # Add name author (optional)
 ---
@@ -116,7 +116,7 @@ Antes de começar é necessário certificar-se que o **MongoDB**, **Nodejs** e o
 Criei um diretório com nome **node-resfull**.
 
 {% highlight bash %}
-$ mkdir node-restfull 
+$ mkdir node-restfull
 $ cd node-restfull
 {% endhighlight %}
 

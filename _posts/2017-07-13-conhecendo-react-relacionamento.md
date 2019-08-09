@@ -3,7 +3,7 @@ layout: post
 title:  Conhecendo a biblioteca React
 date:   2017-07-13 13:32:20 +0300
 description: Estou apaixonado(React) e cada dia que passa meu amor aumenta, esse relacionamento está ficando muito sério. Será que vai da casamento ? duvida não!. # Add post description (optional)
-img: post-5.png # Add image post (optional)
+image: post-5.png # Add image post (optional)
 tags: [Blog, Javascript]
 author: Wharley Ornelas # Add name author (optional)
 ---
@@ -23,17 +23,17 @@ Estou apaixonado(React) e cada dia que passa meu amor aumenta, esse relacionamen
    Os components são escritos em **JSX**, uma sintaxe de extensão de **JavaScript** que permite citar **HTML** para redenrizar os subComponents, esta é uma extensão para o **JavaScript** como o **E4X(ECMAScript para xml)**, a sintaxe **HTML** é processada em chamadas **JavaScript** da estrutura do **React**. Os desenvolvedores também podem escrever em **JavaScript puro**.
    `app.js`
 {% highlight javascript %}
-import React, { Component } from 'react'  
-class App extends component {   
-    render() {  
-        return (  
-            <div>  
+import React, { Component } from 'react'
+class App extends component {
+    render() {
+        return (
+            <div>
                 <p>Hello World</p>
             </div>
-        )  
-    }  
-}  
-export default App 
+        )
+    }
+}
+export default App
 {% endhighlight %}
 
 # Ouvi falar que o React precisa de uma baita configuração!
@@ -50,14 +50,14 @@ Por ser uma biblioteca **JavaScript** de mecanismo dinâmico e também uma forma
 Antes de começar é necessário certificar que o **Nodejs** e o **NPM** estão instalados.
 
 {% highlight bash %}
-$ node -v 
+$ node -v
 $ npm5 -v
 {% endhighlight %}
 
 Criei um diretório com nome **app-react**.
 
 {% highlight bash %}
-$ mkdir app-react 
+$ mkdir app-react
 $ cd app-react
 {% endhighlight %}
 
@@ -76,18 +76,18 @@ $ mkdir public src
 E um arquivo `index.html` dentro do diretório **_app-react/public/_**
 
 {% highlight html %}
-<!DOCTYPE html>  
- <html>  
-      <head>  
-           <meta charset="utf-8">  
-           <meta name="viewport" content="width=device-width, initial-scale=1">  
-           <title>Welcome to React</title>  
-           <link rel="stylesheet" href="app.css">  
-      </head>  
-      <body>  
-           <div id="app" class="container"></div>  
-           <script src="app.js"></script>  
-      </body>  
+<!DOCTYPE html>
+ <html>
+      <head>
+           <meta charset="utf-8">
+           <meta name="viewport" content="width=device-width, initial-scale=1">
+           <title>Welcome to React</title>
+           <link rel="stylesheet" href="app.css">
+      </head>
+      <body>
+           <div id="app" class="container"></div>
+           <script src="app.js"></script>
+      </body>
  </html>
 {% endhighlight %}
 
@@ -104,69 +104,69 @@ $ npm5 i --save-dev babel-core@6.22.1 babel-loader@6.10.2 babel-plugin-html-attr
 Configurando o `package.json`
 
 {% highlight json %}
-"scripts": {  
-   "dev": "webpack-dev-server --progress --colors --inline --hot",  
-   "production": "webpack --progress -p"  
+"scripts": {
+   "dev": "webpack-dev-server --progress --colors --inline --hot",
+   "production": "webpack --progress -p"
 }
 {% endhighlight %}
 
 Criei o arquivo `webpack.config.js` dentro do diretório raíz **_app-react/_**
 
 {% highlight javascript %}
-const webpack = require('webpack')  
-const ExtractTextPlugin = require('extract-text-webpack-plugin')  
-module.exports = {  
-      entry: './src/index.js',  
-      output: {  
-           path: __dirname + '/public',  
-           filename: './app.js'  
-      },  
-      devServer: {  
-           port: 3000,  
-           contentBase: './public'  
-      },  
-      resolve: {  
-           extensions: ['', '.js', '.jsx'],  
-           alias: {  
-                     modules: __dirname + '/node_modules'  
-           }  
-      },       
-      plugins: [  
-           new ExtractTextPlugin('app.css')  
-      ],  
-      module: {  
-           loaders: [{  
-                test: /.js[x]?$/,  
-                loader: 'babel-loader',  
-                exclude: /node_modules/,  
-                query: {  
-                     presets: ['es2015', 'react'],  
-                     plugins: ['transform-object-rest-spread']  
-                }  
-           }, {  
-                test: /\.css$/,  
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')  
-           }, {  
-                test: /\.woff|.woff2|.ttf|.eot|.svg*.*$/,  
-                loader: 'file'  
-           }]  
-      }  
+const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+module.exports = {
+      entry: './src/index.js',
+      output: {
+           path: __dirname + '/public',
+           filename: './app.js'
+      },
+      devServer: {
+           port: 3000,
+           contentBase: './public'
+      },
+      resolve: {
+           extensions: ['', '.js', '.jsx'],
+           alias: {
+                     modules: __dirname + '/node_modules'
+           }
+      },
+      plugins: [
+           new ExtractTextPlugin('app.css')
+      ],
+      module: {
+           loaders: [{
+                test: /.js[x]?$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/,
+                query: {
+                     presets: ['es2015', 'react'],
+                     plugins: ['transform-object-rest-spread']
+                }
+           }, {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+           }, {
+                test: /\.woff|.woff2|.ttf|.eot|.svg*.*$/,
+                loader: 'file'
+           }]
+      }
  }
 {% endhighlight %}
 
 Criei o diretório **_app-react/src/main/_**
 
 {% highlight bash %}
-$ mkdir main 
+$ mkdir main
 $ cd main
 {% endhighlight %}
 
 Adicionei o arquivo `app.js`
 
 {% highlight javascript %}
-import React from 'react'  
-export default props => (  
-    <div>  
+import React from 'react'
+export default props => (
+    <div>
        <h1>My first Component</h1>
     </div>
 )
@@ -181,9 +181,9 @@ Os componentes permitem que você divida a `UI` em peças independentes e reutil
 Criei um arquivo `index.js` dentro do diretório **_app-react/src/_**
 
 {% highlight javascript %}
-import React from 'react'  
-import ReactDOM from 'react-dom'  
-import App from './main/app'  
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './main/app'
 
 ReactDOM.render(<App />, document.getElementById('app'))
 {% endhighlight %}

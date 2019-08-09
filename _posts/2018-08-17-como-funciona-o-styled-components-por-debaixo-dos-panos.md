@@ -3,7 +3,7 @@ layout: post
 title:  Como funciona o Styled-components por debaixo dos panos
 date:   2018-08-17 13:32:20 +0300
 description: O CSS-in-JS está se tornando cada vez mais comum no desenvolvimento moderno de front-end, especialmente na comunidade React. :smile:. # Add post description (optional)
-img: capa-styled-components.png # Add image post (optional)
+image: capa-styled-components.png # Add image post (optional)
 tags: [Blog, Taller]
 author: Wharley Ornelas # Add name author (optional)
 ---

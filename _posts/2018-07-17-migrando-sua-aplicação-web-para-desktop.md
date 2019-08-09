@@ -3,7 +3,7 @@ layout: post
 title:  Migrando sua aplicação web para desktop
 date:   2018-07-17 13:32:20 +0300
 description: Fala galerinha :heart:. Estou a um bom tempo sem escrever post. Agradeço a todos que puxaram minha orelha por causa da falta de artigo no blog :smile:. # Add post description (optional)
-img: post-9.jpg # Add image post (optional)
+image: post-9.jpg # Add image post (optional)
 tags: [Blog, Nodejs]
 author: Wharley Ornelas # Add name author (optional)
 ---
@@ -24,7 +24,7 @@ Javascript vem em uma evolução constante e hoje ela se encontra em todo univer
 E para fazer essa migração iremos usar o framework [ElectronJS][electron]{:target="_blank"}. Que é um framework de código aberto que permite desenvolver aplicações para desktop GUI usando componentes **Front-end** e **Back-end** originalmente criados para aplicações web: **Nodejs** para back-end e **Chromium** para o Front-end.
 > Criado por **Cheng Zhao**, agora desenvolvido pelo **GitHub**.
 
-Ele nos possibilita fazer essa migração em pouco tempo. Dependendo da aplicação até mesmo uns **5 minutos no máximo**. 
+Ele nos possibilita fazer essa migração em pouco tempo. Dependendo da aplicação até mesmo uns **5 minutos no máximo**.
 
 # Vamos a prática:
 
@@ -70,16 +70,16 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-} 
+}
 
-// Este método será chamado quando o Electron terminar a 
+// Este método será chamado quando o Electron terminar a
 // inicialização e estiver pronto para criar janelas do navegador
 // Algumas APIs só podem ser usadas depois que esse evento ocorrer
 app.on('ready', createWindow)
 
 // Sair quando todas as janelas estiverem fechadas
 app.on('window-all-closed', () => {
-  // No macOS é comum que os aplicativos e sua barra de menu 
+  // No macOS é comum que os aplicativos e sua barra de menu
   // permaneçam ativos até que o usuário saia explicitamente com Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
@@ -88,8 +88,8 @@ app.on('window-all-closed', () => {
 
 // Emitido quando o aplicativo é ativado
 app.on('activate', () => {
-  // No macOS é comum recriar uma janela no aplicativo quando o ícone 
-  // dock é clicado e não há outras janelas abertas  
+  // No macOS é comum recriar uma janela no aplicativo quando o ícone
+  // dock é clicado e não há outras janelas abertas
   if (mainWindow === null) {
     createWindow()
   }

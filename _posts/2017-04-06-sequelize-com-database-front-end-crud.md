@@ -3,7 +3,7 @@ layout: post
 title: Criando um CRUD com Angular e Nodejs + Sequelize
 date: 2017-04-06 13:32:20 +0300
 description: Apesar de ter mantido o nome Angular é outro conceito de desenvolvimento, sendo assim quem quiser aprender sugiro a nova versão. # Add post description (optional)
-img: post-3.jpg # Add image post (optional)
+image: post-3.jpg # Add image post (optional)
 tags: [Blog, Angular]
 author: Wharley Ornelas # Add name author (optional)
 ---
@@ -86,7 +86,7 @@ Adicinei um [navbar][navbars]{:target="_blank"} no arquivo `myApp/src/app/app.co
 {% highlight html %}
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->        
+    <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
@@ -180,7 +180,7 @@ import 'rxjs/add/operator/map';
 export class SetorService {
 
   headers: any = new Headers({ 'Content-Type': 'application/json' });
-  options: any = new RequestOptions({ headers: this.headers });  
+  options: any = new RequestOptions({ headers: this.headers });
 
   constructor(private http: Http) { }
 
@@ -194,8 +194,8 @@ export class SetorService {
   getSetorId(data) {
 
       return this.http.post('/byIdSetor', { id: data }, this.options)
-                      .map(response => response.json())    
-  } 
+                      .map(response => response.json())
+  }
 
   //Função que irá fazer uma request no server para inserir um setor
   saveSetor(data) {
@@ -216,7 +216,7 @@ export class SetorService {
 
     return this.http.post('/deleteSetor', data, this.options)
                     .map(response => response.json())
-  }     
+  }
 
 }
 {% endhighlight %}
@@ -300,7 +300,7 @@ import { Setor } from './setor';
   styleUrls: ['./setor.component.css']
 })
 export class SetorComponent implements OnInit {
-  
+
   public setores: Setor[];
   filtro: string;
   private errorMessage: string;
@@ -316,7 +316,7 @@ export class SetorComponent implements OnInit {
       //Estou invocando o método getSetor do SetorService
       this.service.getSetor()
                   .subscribe(data => this.setores = data,
-                  error => this.errorMessage = <any>error);    
+                  error => this.errorMessage = <any>error);
   }
 
   addSetor() {
@@ -336,10 +336,10 @@ export class SetorComponent implements OnInit {
                         this.onLoad()
                     }else{
                         alert('Registro não foi excluído')
-                    }                    
+                    }
                 }, error => this.errorMessage = <any>error)
     }
-  }  
+  }
 
   //Função para filtrar dados a partir de um input do usuário
   obterSetores() {
@@ -428,7 +428,7 @@ export class ManutencaoComponent implements OnInit {
   public model: Setor;
   private isNew: boolean = true;
   private subscription: Subscription;
-  private errorMessage: string;  
+  private errorMessage: string;
 
   constructor(private service: SetorService, private router: Router, private route: ActivatedRoute) { }
 
@@ -443,10 +443,10 @@ export class ManutencaoComponent implements OnInit {
                   .subscribe(data => this.model = data[0],
                   error => this.errorMessage = <any>error);
         } else {
-            this.isNew = true;            
+            this.isNew = true;
         }
 
-      } 
+      }
     )
   }
 
@@ -476,7 +476,7 @@ export class ManutencaoComponent implements OnInit {
                     }
                 }, error => this.errorMessage = <any>error)
     }
-    
+
   }
 
   cancel() {
@@ -653,8 +653,8 @@ export class ProdutoService {
   getProdutoId(data) {
 
       return this.http.post('/byIdProduto', { id: data }, this.options)
-                      .map(response => response.json())    
-  } 
+                      .map(response => response.json())
+  }
 
   saveProduto(data) {
 
@@ -672,7 +672,7 @@ export class ProdutoService {
 
     return this.http.post('/deleteProduto', data, this.options)
                     .map(response => response.json())
-  } 
+  }
 
 }
 {% endhighlight %}
@@ -760,7 +760,7 @@ export class ProdutoComponent implements OnInit {
 
   public produtos: Produto[];
   filtro: string;
-  private errorMessage: string;  
+  private errorMessage: string;
 
   constructor(private service: ProdutoService, private router: Router) { }
 
@@ -772,7 +772,7 @@ export class ProdutoComponent implements OnInit {
 
       this.service.getProduto()
                   .subscribe(data => this.produtos = data,
-                  error => this.errorMessage = <any>error);    
+                  error => this.errorMessage = <any>error);
   }
 
   addProduto() {
@@ -784,7 +784,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   delProduto(produto) {
-        
+
      if (confirm(`Deseja excluir o produto ${produto.id} ?`)) {
         this.service.delProduto(produto)
                 .subscribe(data => {
@@ -793,10 +793,10 @@ export class ProdutoComponent implements OnInit {
                         this.onLoad()
                     }else{
                         alert('Registro não foi excluído')
-                    }                    
+                    }
                 }, error => this.errorMessage = <any>error)
     }
-  }  
+  }
 
   obterProdutos() {
 
@@ -813,7 +813,7 @@ export class ProdutoComponent implements OnInit {
       }
     })
 
-  }  
+  }
 
 }
 {% endhighlight %}
@@ -897,19 +897,19 @@ export class ManutencaoProdutoComponent implements OnInit {
   public setores: Setor[];
   private isNew: boolean = true;
   private subscription: Subscription;
-  private errorMessage: string;    
+  private errorMessage: string;
 
   constructor(
-      private service: ProdutoService, 
-      private setorService: SetorService, 
-      private router: Router, 
+      private service: ProdutoService,
+      private setorService: SetorService,
+      private router: Router,
       private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.model = new Produto();
 
-    this.onGetSetores()    
+    this.onGetSetores()
 
     this.subscription = this.route.params.subscribe((params: any) => {
 
@@ -919,18 +919,18 @@ export class ManutencaoProdutoComponent implements OnInit {
                   .subscribe(data => this.model = data[0],
                   error => this.errorMessage = <any>error);
         } else {
-            this.isNew = true;            
+            this.isNew = true;
         }
 
-      } 
-    )    
+      }
+    )
   }
 
   onGetSetores() {
-      
+
     return this.setorService.getSetor()
                   .subscribe(data => this.setores = data,
-                  error => this.errorMessage = <any>error);    
+                  error => this.errorMessage = <any>error);
   }
 
   save() {
@@ -959,7 +959,7 @@ export class ManutencaoProdutoComponent implements OnInit {
                         alert(alError)
                     }
                 }, error => this.errorMessage = <any>error)
-    } 
+    }
   }
 
   cancel() {
@@ -1176,7 +1176,7 @@ Listening on port 3000
 
 # Conclusão
 
-Com o **@angular/cli** é possivel criar um [single-page application (SPA)][singlepage]{:target="_blank"} simples em pouco tempo. Traduzir de uma linguagem para outra é principalmente uma questão de mudar a maneira como você organiza seu código e acessa APIs Angulares, qualquer coisa que você pode fazer com **Angular** no **TypeScript** você também pode fazer em **JavaScript**. 
+Com o **@angular/cli** é possivel criar um [single-page application (SPA)][singlepage]{:target="_blank"} simples em pouco tempo. Traduzir de uma linguagem para outra é principalmente uma questão de mudar a maneira como você organiza seu código e acessa APIs Angulares, qualquer coisa que você pode fazer com **Angular** no **TypeScript** você também pode fazer em **JavaScript**.
 
 Estou disponibilizando o projeto no [GitHub][github]{:target="_blank"} , acesse lá.
 
