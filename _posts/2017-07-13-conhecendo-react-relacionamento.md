@@ -3,7 +3,8 @@ layout: post
 title:  Conhecendo a biblioteca React
 date:   2017-07-13 13:32:20 +0300
 description: Estou apaixonado(React) e cada dia que passa meu amor aumenta, esse relacionamento está ficando muito sério. Será que vai da casamento ? duvida não!. # Add post description (optional)
-image: post-5.png # Add image post (optional)
+img: post-5.png # Add image post (optional)
+image: /assets/img/post-5.png # SEO
 tags: [Blog, Javascript]
 author: Wharley Ornelas # Add name author (optional)
 ---

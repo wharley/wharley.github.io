@@ -3,7 +3,8 @@ layout: post
 title:  Fechando o ano com chave de ouro — Retrospectiva 2017
 date:   2017-12-30 13:32:20 +0300
 description: Pensando em uma forma de refletir o que aconteceu comigo nesse ano, resolvi escrever esse post.. # Add post description (optional)
-image: retrospectiva.jpeg # Add image post (optional)
+img: retrospectiva.jpeg # Add image post (optional)
+image: /assets/img/retrospectiva.jpeg # SEO
 tags: [Blog, Comunidade]
 author: Wharley Ornelas # Add name author (optional)
 ---

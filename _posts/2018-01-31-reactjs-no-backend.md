@@ -3,7 +3,8 @@ layout: post
 title:  Reactjs no back-end
 date:   2018-02-31 13:32:20 +0300
 description: Cada dia que se passa me surpreendo com as belezas do Reactjs, essa biblioteca fantástica, que me permite trabalhar no lado do servidor 😱. # Add post description (optional)
-image: react_back_end.png # Add image post (optional)
+img: react_back_end.png # Add image post (optional)
+image: /assets/img/react_back_end.png # SEO
 tags: [Blog, Taller]
 author: Wharley Ornelas # Add name author (optional)
 ---

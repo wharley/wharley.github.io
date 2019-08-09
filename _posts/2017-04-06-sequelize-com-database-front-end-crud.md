@@ -3,7 +3,8 @@ layout: post
 title: Criando um CRUD com Angular e Nodejs + Sequelize
 date: 2017-04-06 13:32:20 +0300
 description: Apesar de ter mantido o nome Angular é outro conceito de desenvolvimento, sendo assim quem quiser aprender sugiro a nova versão. # Add post description (optional)
-image: post-3.jpg # Add image post (optional)
+img: post-3.jpg # Add image post (optional)
+image: /assets/img/post-3.jpg # SEO
 tags: [Blog, Angular]
 author: Wharley Ornelas # Add name author (optional)
 ---

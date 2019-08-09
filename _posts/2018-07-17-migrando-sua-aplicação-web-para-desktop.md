@@ -3,7 +3,8 @@ layout: post
 title:  Migrando sua aplicação web para desktop
 date:   2018-07-17 13:32:20 +0300
 description: Fala galerinha :heart:. Estou a um bom tempo sem escrever post. Agradeço a todos que puxaram minha orelha por causa da falta de artigo no blog :smile:. # Add post description (optional)
-image: post-9.jpg # Add image post (optional)
+img: post-9.jpg # Add image post (optional)
+image: /assets/img/post-9.jpg # SEO
 tags: [Blog, Nodejs]
 author: Wharley Ornelas # Add name author (optional)
 ---
