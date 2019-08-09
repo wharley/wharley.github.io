@@ -3,7 +3,7 @@ layout: post
 title:  Como cheguei nesse universo maravilhoso!
 date:   2017-03-13 13:32:20 +0300
 description: Primeiro post pensei em contar um pouco sobre como cheguei até aqui nesse universo maravilhoso chamado WEB. A web na minha visão era somente para pesquisas (google), com isso mantive meu foco em linguagens para desktop.. # Add post description (optional)
-image: post-1.jpg # Add image post (optional)
+image: /assets/img/post-1.jpg # Add image post (optional)
 tags: [Blog, Web]
 author: Wharley Ornelas # Add name author (optional)
 ---
